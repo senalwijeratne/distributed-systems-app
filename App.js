@@ -24,7 +24,7 @@ export default class App extends Component<Props> {
     super(props);
     this.state ={
       isLoading: true,
-      cheeseArray: [
+      dataSource: [
         {
           createdAt: 123,
           updatedAt: 1524496188888,
@@ -142,7 +142,7 @@ export default class App extends Component<Props> {
 
 
         <FlatList
-          data = {this.state.cheeseArray}
+          data = {this.state.dataSource}
           renderItem={ ({item}) =>
             <View style={styles.cardContainer}>
               <Text>
