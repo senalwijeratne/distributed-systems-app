@@ -24,114 +24,45 @@ export default class App extends Component<Props> {
     super(props);
     this.state ={
       isLoading: true,
-      dataSource: [
-        {
-          createdAt: 123,
-          updatedAt: 1524496188888,
-          id: 1,
-          stock: 994,
-          isDeleted: false,
-          isBeingUpdated: false,
-          factoryID: {
-            createdAt: 1524480886656,
-            updatedAt: 1524555469208,
-            id: 1,
-            factoryLocation: "Kurunegala",
-            factoryCountry: "Sri Lanka",
-            isDeleted: false
-          },
-          cheeseID: {
-            createdAt: 123,
-            updatedAt: 123,
-            id: 1,
-            cheeseName:" Cheese 1",
-            cheeseDescription: "asdfa",
-            cheesePrice: 12,
-            isDeleted: false
-          }
-        },
-        {
-          createdAt: 124,
-          updatedAt: 1524496189064,
-          id: 2,
-          stock: 966,
-          isDeleted: false,
-          isBeingUpdated: false,
-          factoryID: {
-            createdAt: 1524480895899,
-            updatedAt: 1524480895899,
-            id: 2,
-            factoryLocation: "Wonka factory",
-            factoryCountry: "Neverland",
-            isDeleted: false
-          },
-          cheeseID: {
-            createdAt: 124,
-            updatedAt: 124,
-            id: 2,
-            cheeseName: "Cheese 2",
-            cheeseDescription: "adfadf",
-            cheesePrice: 13,
-            isDeleted: false
-          }
-        },
-        {
-          createdAt: 1524555901704,
-          updatedAt: 1524555901704,
-          id: 3,
-          stock: 341,
-          isDeleted: false,
-          isBeingUpdated: false,
-          factoryID: {
-            createdAt: 1524480895899,
-            updatedAt: 1524480895899,
-            id: 2,
-            factoryLocation: "Wonka factory",
-            factoryCountry: "Neverland",
-            isDeleted: false
-          },
-          cheeseID: {
-            createdAt: 124,
-            updatedAt: 124,
-            id: 2,
-            cheeseName: "Cheese 2",
-            cheeseDescription: "adfadf",
-            cheesePrice: 13,
-            isDeleted: false
-          }
-        },
-      ]
       }
     }
 
 
-  // componentDidMount(){
-  //   return fetch('http://192.168.206.1:1337/Inventory')
-  //     .then((response) => response.json())
-  //     .then((responseJson) => {
-  //       console.log(responseJson)
-  //       this.setState({
-  //         isLoading: false,
-  //         dataSource: responseJson,
-  //       }, function(){
-  //
-  //       });
-  //
-  //     })
-  //     .catch((error) =>{
-  //       console.error(error);
-  //     });
-  // }
+  componentDidMount(){
+    return fetch('http://192.168.8.101:1338/Inventory/return-all-json',{
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'authentication': 'CHEESYSTOCK'
+      }
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({
+        isLoading: false,
+        dataSource: responseJson,
+      }, function(){
+
+      });
+
+      console.log(this.state.dataSource)
+
+    })
+    .catch((error) =>{
+      console.error(error);
+    });
+  }
 
   render() {
 
-    // if(this.state.isLoading){
-    //   return(
-    //     <View style={{flex: 1, padding: 20, justifyContent: 'center'}}>
-    //       <ActivityIndicator size="large" />
-    //     </View>
-    //   )
-    // }
+    if(this.state.isLoading){
+      return(
+        <View style={{flex: 1, padding: 20, justifyContent: 'center'}}>
+          <ActivityIndicator size="large" />
+        </View>
+      )
+    }
 
     return (
       <ScrollView contentContainerStyle={styles.container}>
@@ -142,7 +73,7 @@ export default class App extends Component<Props> {
 
 
         <FlatList
-          data = {this.state.dataSource}
+          data = {this.state.dataSource['inventory']}
           renderItem={ ({item}) =>
             <View style={styles.cardContainer}>
               <Text>
